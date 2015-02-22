@@ -17,7 +17,7 @@ Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence)
                 _video = new QFile(_project->path()+"/input/video");
 
                 QProcess process;
-                process.startDetached("avconv -i " + _project->path() +"/input/video -vsync 1 -r 8 -y " + _project->path() + "/input/img%d.jpg");
+                process.startDetached("avconv -i " + _project->path() +"/input/video -vsync 1 -r " +  QString::number(frequence) + " -y " + _project->path() + "/input/img%d.jpg");
             }
             else
             {
