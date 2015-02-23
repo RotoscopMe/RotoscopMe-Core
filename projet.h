@@ -11,8 +11,10 @@ class Projet
 
     private:
         QDir* _project;
+        QDir* _input;
         QFile* _video;
         int _frequenceVideo;
+        int _nbFrameVideo;
 };
 
 #endif // PROJET_H
