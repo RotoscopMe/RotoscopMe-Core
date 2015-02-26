@@ -1,7 +1,6 @@
 #include "projet.h"
 #include <QtDebug>
 #include <QProcess>
-#include <QImage>
 
 Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _frequenceVideo(frequence)
 {
@@ -52,3 +51,12 @@ Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _f
     }
 }
 
+QImage* Projet::getImageVideo(int number)
+{
+    return _imagesVideo.at(number);
+}
+
+QImage* Projet::getImageOutput(int number)
+{
+    return _imagesOutput.at(number);
+}

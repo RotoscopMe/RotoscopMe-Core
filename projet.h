@@ -3,11 +3,15 @@
 
 #include <QDir>
 #include <QFile>
+#include <QImage>
 
 class Projet
 {
     public:
         Projet(QString &name, QDir &workspace, QFile &video, int frequence);
+
+        QImage* getImageVideo(int number);
+        QImage* getImageOutput(int number);
 
 
 
