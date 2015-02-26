@@ -33,7 +33,7 @@ Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _f
                 {
                     _imagesVideo.push_back(new QImage(_input->path()+"/img"+QString::number(i)+".bmp"));
                     _imagesVideo.back()->scaled(1280, 720);
-                    _imagesOutput.push_back(newQImage(1280,720,QImage::Format_ARGB32));
+                    _imagesOutput.push_back(new QImage(1280,720,QImage::Format_ARGB32));
                 }
             }
             else
