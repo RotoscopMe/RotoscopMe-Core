@@ -30,8 +30,9 @@ Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _f
 
                 for(int i = 1; i <= _nbFrameVideo; i++)
                 {
-                    _imagesVideo.push_back(new QImage(_input->path()+"/img"+QString::number(i)+".bmp"));
-                    _imagesVideo.back()->scaled(1280, 720);
+                    QImage *image = new QImage(_input->path()+"/img"+QString::number(i)+".bmp");
+                    _imagesVideo.push_back(new QImage(image->scaled(1280,720)));
+                    delete image;
                     _imagesOutput.push_back(new QImage(1280,720,QImage::Format_ARGB32));
                 }
             }
