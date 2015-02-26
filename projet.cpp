@@ -1,6 +1,7 @@
 #include "projet.h"
 #include <QtDebug>
 #include <QProcess>
+#include <QImage>
 
 Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _frequenceVideo(frequence)
 {
@@ -14,17 +15,26 @@ Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _f
                 qDebug() << _project->path();
                 _project->mkdir("input");
                 _input = new QDir(_project->path()+"/input");
+                _project->mkdir("output");
+                _output = new QDir(_project->path()+"/output");
                 video.copy(_project->path()+"/input/video");
                 _video = new QFile(_project->path()+"/input/video");
 
                 QProcess process;
-                process.start("avconv -i " + _project->path() +"/input/video -vsync 1 -r " +  QString::number(_frequenceVideo) + " -y " + _project->path() + "/input/img%d.jpg");
+                process.start("avconv -i " + _project->path() +"/input/video -vsync 1 -r " +  QString::number(_frequenceVideo) + " -y " + _project->path() + "/input/img%d.bmp");
                 process.waitForFinished(-1);
 
                 QStringList filters;
-                filters << "img*.jpg";
+                filters << "img*.bmp";
                 _nbFrameVideo = _input->entryList(filters).count();
                 qDebug() << "Nombre de frames : " << _nbFrameVideo;
+
+                for(int i = 1; i <= _nbFrameVideo; i++)
+                {
+                    _imagesVideo.push_back(new QImage(_input->path()+"/img"+QString::number(i)+".bmp"));
+                    _imagesVideo.back()->scaled(1280, 720);
+                    _imagesOutput.push_back(newQImage(1280,720,QImage::Format_ARGB32));
+                }
             }
             else
             {
@@ -41,3 +51,4 @@ Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _f
         throw QString("Le workspace n'existe pas");
     }
 }
+
