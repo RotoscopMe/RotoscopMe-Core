@@ -13,7 +13,7 @@ class Projet
         QImage* getImageVideo(int number);
         QImage* getImageOutput(int number);
 
-
+        int getNbFrameVideo();
 
     private:
         QDir* _project;

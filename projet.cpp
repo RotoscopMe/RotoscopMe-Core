@@ -61,3 +61,8 @@ QImage* Projet::getImageOutput(int number)
 {
     return _imagesOutput.at(number);
 }
+
+int Projet::getNbFrameVideo()
+{
+    return _nbFrameVideo;
+}
