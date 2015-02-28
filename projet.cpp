@@ -2,6 +2,8 @@
 #include <QtDebug>
 #include <QProcess>
 
+const QSize Projet::sizeOutput = QSize(1002, 561);
+
 Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _frequenceVideo(frequence)
 {
     if(workspace.exists())
@@ -20,7 +22,7 @@ Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _f
                 _video = new QFile(_project->path()+"/input/video");
 
                 QProcess process;
-                process.start("avconv -i " + _project->path() +"/input/video -vsync 1 -r " +  QString::number(_frequenceVideo) + " -y " + _project->path() + "/input/img%d.bmp");
+                process.start("avconv -i " + _project->path() +"/input/video -vsync 1 -s " + QString::number(sizeOutput.width()) + "x" + QString::number(sizeOutput.height()) + " -r " +  QString::number(_frequenceVideo) + " -y " + _project->path() + "/input/img%d.bmp");
                 process.waitForFinished(-1);
 
                 QStringList filters;
@@ -31,9 +33,9 @@ Projet::Projet(QString &name, QDir &workspace, QFile &video, int frequence) : _f
                 for(int i = 1; i <= _nbFrameVideo; i++)
                 {
                     QImage *image = new QImage(_input->path()+"/img"+QString::number(i)+".bmp");
-                    _imagesVideo.push_back(new QImage(image->scaled(1280,720)));
+                    _imagesVideo.push_back(new QImage(image->scaled(sizeOutput.width(),sizeOutput.height())));
                     delete image;
-                    _imagesOutput.push_back(new QImage(1280,720,QImage::Format_ARGB32));
+                    _imagesOutput.push_back(new QImage(sizeOutput.width(),sizeOutput.height(),QImage::Format_ARGB32));
                 }
             }
             else

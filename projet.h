@@ -15,6 +15,8 @@ class Projet
 
         int getNbFrameVideo();
 
+        static const QSize sizeOutput;
+
     private:
         QDir* _project;
         QDir* _input;
