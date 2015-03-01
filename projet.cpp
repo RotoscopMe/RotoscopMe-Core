@@ -161,13 +161,7 @@ void Projet::save()
 {
     for(size_t i = 0; i < _imagesOutput.size(); i++)
     {
-        QImage *image = new QImage(_imagesOutput.at(i)->size(), QImage::Format_ARGB32);
-        image->fill(Qt::white);
-
-        QPainter painter(image);
-        painter.drawImage(0,0,*_imagesOutput.at(i));
-
-        image->save(_output->path()+"/img" + QString::number(i+1) + ".png");
+        _imagesOutput.at(i)->save(_output->path()+"/img" + QString::number(i+1) + ".png");
     }
 }
 
