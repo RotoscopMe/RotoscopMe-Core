@@ -54,12 +54,21 @@ Projet* Projet::create(QString &name, QDir &workspace, QFile &video, int frequen
                 projet->_nbFrameVideo = projet->_input->entryList(filters).count();
                 qDebug() << "Nombre de frames : " << projet->_nbFrameVideo;
 
+                QFile file(projet->_project->path() + "/info");
+                file.open(QIODevice::WriteOnly | QIODevice::Text);
+                QTextStream out(&file);
+
+                out << QString::number(projet->_frequenceVideo) << "\n" << QString::number(projet->_nbFrameVideo);
+
+                file.close();
+
                 for(int i = 1; i <= projet->_nbFrameVideo; i++)
                 {
-                    QImage *image = new QImage(projet->_input->path()+"/img"+QString::number(i)+".bmp");
-                    projet->_imagesVideo.push_back(new QImage(image->scaled(projet->sizeOutput.width(),projet->sizeOutput.height())));
-                    delete image;
-                    projet->_imagesOutput.push_back(new QImage(projet->sizeOutput.width(),projet->sizeOutput.height(),QImage::Format_ARGB32));
+                    projet->_imagesVideo.push_back(new QImage(projet->_input->path()+"/img"+QString::number(i)+".bmp"));
+                    QImage *image = new QImage(projet->sizeOutput.width(),projet->sizeOutput.height(),QImage::Format_ARGB32);
+                    image->fill(Qt::white);
+                    image->save(projet->_output->path() + "/img" + QString::number(i) + ".bmp");
+                    projet->_imagesOutput.push_back(image);
                 }
             }
             else
