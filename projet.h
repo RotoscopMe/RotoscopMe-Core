@@ -17,6 +17,11 @@ class Projet
         QImage* getImageVideo(int number);
         QImage* getImageOutput(int number);
 
+        QString getName();
+        QString getWorkspace();
+        QString getVideo();
+        int getFrequence();
+
         int getNbFrameVideo();
 
         static const QSize sizeOutput;

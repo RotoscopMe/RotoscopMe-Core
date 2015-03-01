@@ -26,6 +26,29 @@ int Projet::getNbFrameVideo()
     return _nbFrameVideo;
 }
 
+QString Projet::getName()
+{
+    return _project->dirName();
+}
+
+QString Projet::getWorkspace()
+{
+    QDir dir(_project->path());
+    dir.cdUp();
+
+    return dir.absolutePath();
+}
+
+QString Projet::getVideo()
+{
+    return _video->fileName();
+}
+
+QString Projet::getFrequence()
+{
+    return _frequenceVideo;
+}
+
 Projet* Projet::create(QString &name, QDir &workspace, QFile &video, int frequenceVideo)
 {
     Projet *projet = new Projet();
