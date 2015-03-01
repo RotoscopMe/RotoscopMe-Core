@@ -1,6 +1,8 @@
 #include "projet.h"
 #include <QtDebug>
 #include <QProcess>
+#include <QException>
+#include <QPainter>
 
 const QSize Projet::sizeOutput = QSize(1002, 561);
 
@@ -66,8 +68,7 @@ Projet* Projet::create(QString &name, QDir &workspace, QFile &video, int frequen
                 {
                     projet->_imagesVideo.push_back(new QImage(projet->_input->path()+"/img"+QString::number(i)+".bmp"));
                     QImage *image = new QImage(projet->sizeOutput.width(),projet->sizeOutput.height(),QImage::Format_ARGB32);
-                    image->fill(Qt::white);
-                    image->save(projet->_output->path() + "/img" + QString::number(i) + ".bmp");
+                    image->save(projet->_output->path() + "/img" + QString::number(i) + ".png");
                     projet->_imagesOutput.push_back(image);
                 }
             }
@@ -99,9 +100,49 @@ Projet* Projet::open(QDir &path)
         projet->_input = new QDir(path.path() + "/input");
         projet->_output = new QDir(path.path() + "/output");
 
-        if(projet->_input->exists())
+        QFile info(projet->_project->path() + "/info");
+
+        if(info.exists())
+        {
+            info.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&info);
+
+            QString string;
+            in >> string;
+            projet->_frequenceVideo = string.toInt();
+
+            in >> string;
+            projet->_nbFrameVideo = string.toInt();
+
+            qDebug() << "Frequence : " << projet->_frequenceVideo;
+            qDebug() << "Nombre de frames : " << projet->_nbFrameVideo;
+        }
+        else
+        {
+            throw QString("Le projet n'est pas complet");
+        }
+
+        if(projet->_input->exists() && projet->_output->exists())
         {
             projet->_video = new QFile(projet->_input->path() + "/video");
+
+            if(!projet->_video->exists())
+            {
+                throw QString("Le projet n'est pas complet");
+            }
+
+            for(int i = 1; i <= projet->_nbFrameVideo; i++)
+            {
+                try
+                {
+                    projet->_imagesVideo.push_back(new QImage(projet->_input->path() + "/img" + QString::number(i) + ".bmp"));
+                    projet->_imagesOutput.push_back(new QImage(projet->_output->path() + "/img" + QString::number(i) + ".png"));
+                }
+                catch(QException e)
+                {
+                    throw QString("Le projet n'est pas complet");
+                }
+            }
         }
         else
         {
@@ -120,6 +161,12 @@ void Projet::save()
 {
     for(size_t i = 0; i < _imagesOutput.size(); i++)
     {
-        _imagesOutput.at(i)->save(_output->path()+"/img" + QString::number(i) + ".bmp");
+        QImage *image = new QImage(_imagesOutput.at(i)->size(), QImage::Format_ARGB32);
+        image->fill(Qt::white);
+
+        QPainter painter(image);
+        painter.drawImage(0,0,*_imagesOutput.at(i));
+
+        image->save(_output->path()+"/img" + QString::number(i) + ".png");
     }
 }
