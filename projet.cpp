@@ -167,7 +167,7 @@ void Projet::save()
         QPainter painter(image);
         painter.drawImage(0,0,*_imagesOutput.at(i));
 
-        image->save(_output->path()+"/img" + QString::number(i) + ".png");
+        image->save(_output->path()+"/img" + QString::number(i+1) + ".png");
     }
 }
 
