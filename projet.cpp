@@ -175,10 +175,10 @@ void Projet::saveAs(QDir &projet)
             QProcess::execute("cp -r " + _project->absolutePath() + "/output " + projet.absolutePath() + "/");
             QProcess::execute("cp -r " + _project->absolutePath() + "/info " + projet.absolutePath() + "/");
 
-            _project = projet;
-            _input = QDir(projet.path() + "/input");
-            _output = QDir(projet.path() + "/output");
-            _video = QFile(projet.path() + "/input/video");
+            _project = new QDir(projet);
+            _input = new QDir(projet.path() + "/input");
+            _output = new QDir(projet.path() + "/output");
+            _video = new QFile(projet.path() + "/input/video");
 
             save();
         }
@@ -196,10 +196,10 @@ void Projet::saveAs(QDir &projet)
             QProcess::execute("cp -r " + _project->absolutePath() + "/output " + projet.absolutePath() + "/" + name + "/");
             QProcess::execute("cp -r " + _project->absolutePath() + "/info " + projet.absolutePath() + "/" + name + "/");
 
-            _project = projet + "/" + name;
-            _input = QDir(_project.path() + "/input");
-            _output = QDir(_project.path() + "/output");
-            _video = QFile(_project.path() + "/input/video");
+            _project = new QDir(projet.path() + "/" + name);
+            _input = new QDir(_project->path() + "/input");
+            _output = new QDir(_project->path() + "/output");
+            _video = new QFile(_project->path() + "/input/video");
 
             save();
         }
