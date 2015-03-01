@@ -68,3 +68,12 @@ int Projet::getNbFrameVideo()
 {
     return _nbFrameVideo;
 }
+
+void Projet::save()
+{
+    for(int i = 0; i < _imagesOutput.size(); i++)
+    {
+        _imagesOutput.at(i)->save(_output->path()+"/img" + QString::number(i) + ".bmp");
+    }
+}
+

@@ -10,6 +10,8 @@ class Projet
     public:
         Projet(QString &name, QDir &workspace, QFile &video, int frequence);
 
+        void save();
+
         QImage* getImageVideo(int number);
         QImage* getImageOutput(int number);
 
