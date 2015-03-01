@@ -44,7 +44,7 @@ QString Projet::getVideo()
     return _video->fileName();
 }
 
-QString Projet::getFrequence()
+int Projet::getFrequence()
 {
     return _frequenceVideo;
 }
