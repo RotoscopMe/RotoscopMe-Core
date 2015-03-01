@@ -133,14 +133,13 @@ Projet* Projet::open(QDir &path)
             QTextStream in(&info);
 
             QString string;
-            in >> string;
+            string = in.readLine();
             projet->_frequenceVideo = string.toInt();
 
-            in >> string;
+            string = in.readLine();
             projet->_nbFrameVideo = string.toInt();
 
-            in >> string;
-            projet->_origineVideo = string;
+            projet->_origineVideo = in.readLine();
 
             qDebug() << "Frequence : " << projet->_frequenceVideo;
             qDebug() << "Nombre de frames : " << projet->_nbFrameVideo;
