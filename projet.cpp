@@ -76,6 +76,35 @@ Projet* Projet::create(QString &name, QDir &workspace, QFile &video, int frequen
     {
         throw QString("Le workspace n'existe pas");
     }
+
+    return projet;
+}
+
+Projet* Projet::open(QDir &path)
+{
+    Projet *projet = new Projet();
+
+    if(path.exists())
+    {
+        projet->_project = new QDir(path.path());
+        projet->_input = new QDir(path.path() + "/input");
+        projet->_output = new QDir(path.path() + "/output");
+
+        if(projet->_input->exists())
+        {
+            projet->_video = new QFile(projet->_input->path() + "/video");
+        }
+        else
+        {
+            throw QString("Ce projet est mal formé");
+        }
+    }
+    else
+    {
+        throw QString("Ce projet n'existe pas");
+    }
+
+    return projet;
 }
 
 void Projet::save()
