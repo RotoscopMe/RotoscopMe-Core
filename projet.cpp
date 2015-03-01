@@ -70,6 +70,8 @@ Projet* Projet::create(QString &name, QDir &workspace, QFile &video, int frequen
                 video.copy(projet->_project->path()+"/input/video");
                 projet->_video = new QFile(projet->_project->path()+"/input/video");
 
+                projet->_origineVideo = video.fileName();
+
                 QProcess process;
                 process.start("avconv -i " + projet->_project->path() +"/input/video -vsync 1 -s " + QString::number(sizeOutput.width()) + "x" + QString::number(projet->sizeOutput.height()) + " -r " +  QString::number(projet->_frequenceVideo) + " -y " + projet->_project->path() + "/input/img%d.bmp");
                 process.waitForFinished(-1);
@@ -83,7 +85,7 @@ Projet* Projet::create(QString &name, QDir &workspace, QFile &video, int frequen
                 file.open(QIODevice::WriteOnly | QIODevice::Text);
                 QTextStream out(&file);
 
-                out << QString::number(projet->_frequenceVideo) << "\n" << QString::number(projet->_nbFrameVideo);
+                out << QString::number(projet->_frequenceVideo) << "\n" << QString::number(projet->_nbFrameVideo) << "\n" << projet->_origineVideo;
 
                 file.close();
 
@@ -136,6 +138,9 @@ Projet* Projet::open(QDir &path)
 
             in >> string;
             projet->_nbFrameVideo = string.toInt();
+
+            in >> string;
+            projet->_origineVideo = string;
 
             qDebug() << "Frequence : " << projet->_frequenceVideo;
             qDebug() << "Nombre de frames : " << projet->_nbFrameVideo;

@@ -36,6 +36,8 @@ class Projet
         int _frequenceVideo;
         int _nbFrameVideo;
 
+        QString _origineVideo;
+
         std::vector<QImage*> _imagesVideo;
         std::vector<QImage*> _imagesOutput;
 };
