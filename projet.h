@@ -12,7 +12,7 @@ class Projet
         static Projet* create(QString &name, QDir &workspace, QFile &video, int frequenceVideo);
         static Projet* open(QDir &path);
         void save();
-        void saveAs(QString &name, QDir &workspace);
+        void saveAs(QDir &projet);
 
         QImage* getImageVideo(int number);
         QImage* getImageOutput(int number);

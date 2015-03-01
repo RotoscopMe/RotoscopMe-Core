@@ -165,13 +165,11 @@ void Projet::save()
     }
 }
 
-void Projet::saveAs(QString &name, QDir &workspace)
+void Projet::saveAs(QDir &projet)
 {
-    if(workspace.exists())
+    if(projet.exists())
     {
-        QDir dir(workspace.path() + "/" + name);
-
-        if(!dir.exists())
+        if(projet.count() == 0)
         {
             QProcess process;
             process.start("cp -R " + _project->path() + " " + workspace.path() + "/" + name );
@@ -179,11 +177,11 @@ void Projet::saveAs(QString &name, QDir &workspace)
         }
         else
         {
-            throw QString("Ce projet existe déjà");
+            throw QString("Ce dossier n'est pas vide");
         }
     }
     else
     {
-        throw QString("Le workspace n'existe pas");
+        throw QString("Ce dossier n'existe pas");
     }
 }
