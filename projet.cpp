@@ -170,3 +170,26 @@ void Projet::save()
         image->save(_output->path()+"/img" + QString::number(i) + ".png");
     }
 }
+
+void Projet::saveAs(QString &name, QDir &workspace)
+{
+    if(workspace.exists())
+    {
+        QDir dir(workspace.path() + "/" + name);
+
+        if(!dir.exists())
+        {
+            QProcess process;
+            process.start("cp -R " + _project->path() + " " + workspace.path() + "/" + name );
+            process.waitForFinished(-1);
+        }
+        else
+        {
+            throw QString("Ce projet existe déjà");
+        }
+    }
+    else
+    {
+        throw QString("Le workspace n'existe pas");
+    }
+}
