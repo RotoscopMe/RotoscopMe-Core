@@ -169,11 +169,11 @@ void Projet::saveAs(QDir &projet)
 {
     if(projet.exists())
     {
-        if(projet.count() == 0)
+        if(projet.count() == 2) //Les 2 correspond à . et ..
         {
-            QProcess process;
-            process.start("cp -R " + _project->path() + " " + workspace.path() + "/" + name );
-            process.waitForFinished(-1);
+            QProcess::execute("cp -r " + _project->absolutePath() + "/input " + projet.absolutePath() + "/" + name + "/");
+            QProcess::execute("cp -r " + _project->absolutePath() + "/output " + projet.absolutePath() + "/" + name + "/");
+            QProcess::execute("cp -r " + _project->absolutePath() + "/info " + projet.absolutePath() + "/" + name + "/");
         }
         else
         {
@@ -182,6 +182,16 @@ void Projet::saveAs(QDir &projet)
     }
     else
     {
-        throw QString("Ce dossier n'existe pas");
+        QString name(projet.dirName());
+        if(projet.cdUp() && projet.mkdir(name))
+        {
+            QProcess::execute("cp -r " + _project->absolutePath() + "/input " + projet.absolutePath() + "/" + name + "/");
+            QProcess::execute("cp -r " + _project->absolutePath() + "/output " + projet.absolutePath() + "/" + name + "/");
+            QProcess::execute("cp -r " + _project->absolutePath() + "/info " + projet.absolutePath() + "/" + name + "/");
+        }
+        else
+        {
+            throw QString("Ce dossier n'existe pas");
+        }
     }
 }
