@@ -171,9 +171,9 @@ void Projet::saveAs(QDir &projet)
     {
         if(projet.count() == 2) //Les 2 correspond à . et ..
         {
-            QProcess::execute("cp -r " + _project->absolutePath() + "/input " + projet.absolutePath() + "/" + name + "/");
-            QProcess::execute("cp -r " + _project->absolutePath() + "/output " + projet.absolutePath() + "/" + name + "/");
-            QProcess::execute("cp -r " + _project->absolutePath() + "/info " + projet.absolutePath() + "/" + name + "/");
+            QProcess::execute("cp -r " + _project->absolutePath() + "/input " + projet.absolutePath() + "/");
+            QProcess::execute("cp -r " + _project->absolutePath() + "/output " + projet.absolutePath() + "/");
+            QProcess::execute("cp -r " + _project->absolutePath() + "/info " + projet.absolutePath() + "/");
         }
         else
         {
