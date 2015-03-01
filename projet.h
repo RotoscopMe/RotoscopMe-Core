@@ -8,7 +8,6 @@
 class Projet
 {
     public:
-        Projet();
 
         static Projet* create(QString &name, QDir &workspace, QFile &video, int frequenceVideo);
         static Projet* open(QDir &path);
@@ -23,6 +22,8 @@ class Projet
         static const QSize sizeOutput;
 
     private:
+        Projet();
+
         QDir* _project;
         QDir* _input;
         QDir* _output;
