@@ -41,7 +41,7 @@ QString Projet::getWorkspace()
 
 QString Projet::getVideo()
 {
-    return _video->fileName();
+    return _origineVideo;
 }
 
 int Projet::getFrequence()
