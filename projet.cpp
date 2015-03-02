@@ -256,14 +256,7 @@ void Projet::exportVideo(QString &filePath)
 {
     QFile file(filePath);
 
-    if(file.exists())
-    {
-        QProcess process;
-        process.start("avconv -r " +QString::number(_frequenceVideo) + " -i " + _output->path() + "/img_%d.png -b:v 1000k " + filePath);
-        process.waitForFinished(-1);
-    }
-    else
-    {
-        throw QString("Ce dossier n'existe pas");
-    }
+    QProcess process;
+    process.start("avconv -r " +QString::number(_frequenceVideo) + " -i " + _output->path() + "/img_%d.png -b:v 1000k " + filePath);
+    process.waitForFinished(-1);
 }
