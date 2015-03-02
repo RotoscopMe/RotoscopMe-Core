@@ -251,3 +251,17 @@ void Projet::exportImage(QDir &dir)
         throw QString("Ce dossier n'existe pas");
     }
 }
+
+void Projet::exportVideo(QDir &dir)
+{
+    if(dir.exists())
+    {
+        QProcess process;
+        process.start("avconv -r " + _frequenceVideo + " -i " + _output->path() + "/img_%d.png -b:v 1000k test.mp4");
+        process.waitForFinished(-1);
+    }
+    else
+    {
+        throw QString("Ce dossier n'existe pas");
+    }
+}

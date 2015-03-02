@@ -14,6 +14,7 @@ class Projet
         void save();
         void saveAs(QDir &projet);
         void exportImage(QDir &dir);
+        void exportVideo(QDir &dir);
 
 
         QImage* getImageVideo(int number);
