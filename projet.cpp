@@ -256,28 +256,24 @@ void Projet::exportVideo(QString &filePath)
 {
     QFile file(filePath);
 
-    if(!file.exists())
+    if(file.exists())
+        QProcess::execute("rm " + filePath);
+
+    _project->mkdir("tmp");
+
+    for(size_t i = 0; i < _imagesOutput.size(); i++)
     {
-        _project->mkdir("tmp");
+        QImage *image = new QImage(_imagesOutput.at(i)->size(), QImage::Format_ARGB32);
+        QPainter painter(image);
+        image->fill(Qt::white);
+        painter.drawImage(0,0,*_imagesOutput.at(i));
 
-        for(size_t i = 0; i < _imagesOutput.size(); i++)
-        {
-            QImage *image = new QImage(_imagesOutput.at(i)->size(), QImage::Format_ARGB32);
-            QPainter painter(image);
-            image->fill(Qt::white);
-            painter.drawImage(0,0,*_imagesOutput.at(i));
-
-            image->save(_project->path() + "/tmp/img" + QString::number(i+1) + ".png");
-        }
-
-        QProcess process;
-        process.start("avconv -r " + QString::number(_frequenceVideo) + " -i " + _project->path() + "/tmp/img%d.png " + filePath);
-        process.waitForFinished(-1);
-
-        QProcess::execute("rm -R " + _project->path() + "/tmp");
+        image->save(_project->path() + "/tmp/img" + QString::number(i+1) + ".png");
     }
-    else
-    {
-        throw QString("Ce fichier existe déjà");
-    }
+
+    QProcess process;
+    process.start("avconv -r " + QString::number(_frequenceVideo) + " -i " + _project->path() + "/tmp/img%d.png " + filePath);
+    process.waitForFinished(-1);
+
+    QProcess::execute("rm -R " + _project->path() + "/tmp");
 }
