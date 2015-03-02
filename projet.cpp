@@ -258,9 +258,23 @@ void Projet::exportVideo(QString &filePath)
 
     if(!file.exists())
     {
+        _project->mkdir("tmp");
+
+        for(size_t i = 0; i < _imagesOutput.size(); i++)
+        {
+            QImage *image = new QImage(_imagesOutput.at(i)->size(), QImage::Format_ARGB32);
+            QPainter painter(image);
+            image->fill(Qt::white);
+            painter.drawImage(0,0,*_imagesOutput.at(i));
+
+            image->save(_project->path() + "/tmp/img" + QString::number(i+1) + ".png");
+        }
+
         QProcess process;
-        process.start("avconv -r " + QString::number(_frequenceVideo) + " -i " + _output->path() + "/img%d.png " + filePath);
+        process.start("avconv -r " + QString::number(_frequenceVideo) + " -i " + _project->path() + "/tmp/img%d.png " + filePath);
         process.waitForFinished(-1);
+
+        QProcess::execute("rm -R " + _project->path() + "/tmp");
     }
     else
     {
