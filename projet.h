@@ -13,6 +13,8 @@ class Projet
         static Projet* open(QDir &path);
         void save();
         void saveAs(QDir &projet);
+        void exportImage(QDir &dir);
+
 
         QImage* getImageVideo(int number);
         QImage* getImageOutput(int number);

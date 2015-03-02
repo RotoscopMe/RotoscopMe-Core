@@ -236,3 +236,18 @@ void Projet::saveAs(QDir &projet)
         }
     }
 }
+
+void Projet::exportImage(QDir &dir)
+{
+    if(dir.exists())
+    {
+        for(size_t i = 0; i < _imagesOutput.size(); i++)
+        {
+            _imagesOutput.at(i)->save(dir.path() + "/img" + QString::number(i+1) + ".png");
+        }
+    }
+    else
+    {
+        throw QString("Ce dossier n'existe pas");
+    }
+}
