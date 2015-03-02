@@ -4,7 +4,7 @@
 #include <QException>
 #include <QPainter>
 
-const QSize Projet::sizeOutput = QSize(1002, 561);
+const QSize Projet::sizeOutput = QSize(1002, 562);
 
 Projet::Projet()
 {
